@@ -7,7 +7,15 @@ scraper bots.
 
 ## Credits
 
-Inspired by [Anubis](https://github.com/TecharoHQ/anubis).
+Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
+
+## Bugs
+
+- If a user is attempting to submit a POST request but their powxy cookie is
+  invalid, powxy would redirect them to a challenge, and their POST data will
+  be lost.
+- It does not work when duplex connections are needed, e.g. with Git's Smart
+  HTTP protocol.
 
 ## License
 
