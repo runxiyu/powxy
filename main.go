@@ -148,7 +148,7 @@ func main() {
 		h.Write(nonce)
 		ck := h.Sum(nil)
 		if !validateBitZeros(ck, difficulty) {
-			authPage("Your submission was incorrect.")
+			authPage("Your submission was incorrect, or your session has expired while submitting.")
 			return
 		}
 
