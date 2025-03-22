@@ -1,8 +1,8 @@
 package main
 
 import (
-	"crypto/rand"
 	"crypto/hmac"
+	"crypto/rand"
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/base64"
@@ -125,7 +125,7 @@ func main() {
 		if !ok {
 			authPage("")
 			return
-		} else if len(formValues) != 1  {
+		} else if len(formValues) != 1 {
 			authPage("You submitted an invalid number of form values.")
 			return
 		}
@@ -144,7 +144,7 @@ func main() {
 			authPage("Your submission was incorrect.")
 			return
 		}
-		
+
 		http.SetCookie(writer, &http.Cookie{
 			Name:  "powxy",
 			Value: base64.StdEncoding.EncodeToString(expectedToken),
@@ -167,10 +167,10 @@ func validateCookie(cookie *http.Cookie, expectedToken []byte) bool {
 	return subtle.ConstantTimeCompare(gotToken, expectedToken) == 1
 }
 func makeSignedToken(request *http.Request) []byte {
-	buf := make([]byte, 0, 2 * sha256.Size)
+	buf := make([]byte, 0, 2*sha256.Size)
 
 	timeBuf := make([]byte, binary.MaxVarintLen64)
-	binary.PutVarint(timeBuf, time.Now().Unix() / 604800)
+	binary.PutVarint(timeBuf, time.Now().Unix()/604800)
 
 	remoteAddr, _, _ := strings.Cut(request.RemoteAddr, ":")
 
@@ -189,7 +189,7 @@ func makeSignedToken(request *http.Request) []byte {
 	mac := hmac.New(sha256.New, privkey)
 	mac.Write(buf)
 	buf = mac.Sum(buf)
-	if len(buf) != 2 * sha256.Size {
+	if len(buf) != 2*sha256.Size {
 		panic("unexpected buffer length after hmac")
 	}
 
