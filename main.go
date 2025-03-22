@@ -9,6 +9,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"flag"
+	"html"
 	"html/template"
 	"io"
 	"log"
@@ -76,6 +77,12 @@ Encode your selected value in base64 and submit it below:
 <input name="powxy" type="text" />
 <input type="submit" value="Submit" />
 </form>
+<br />
+<details>
+<summary>
+Python script to automatically solve this
+</summary><pre>` + html.EscapeString(pythonScript) + `</pre>
+</details>
 </body>
 </html>
 `)
@@ -236,3 +243,36 @@ func validateBitZeros(bs []byte, n uint) bool {
 
 	return true
 }
+
+const pythonScript = `
+import base64
+import hashlib
+import random
+import sys
+
+def proc(encoded, n_bits):
+    decoded = base64.b64decode(encoded)
+    while True:
+        appended = bytes([random.randint(0, 255) for _ in range(16)])
+        sha256_hash = hashlib.sha256(decoded + appended).digest()
+        hash_bits = ''.join(f'{byte:08b}' for byte in sha256_hash)
+        if hash_bits[:n_bits] == '0' * n_bits:
+            return appended
+
+def main() :
+    if len(sys.argv) != 3:
+        print(f"usage: {sys.argv[0]} <encoded> <n_bits>", file=sys.stderr)
+        sys.exit(1)
+    
+    encoded = sys.argv[1]
+    n_bits = int(sys.argv[2])
+    
+    if n_bits < 0 or n_bits > 256:
+        print("error: n_bits should be between 0 and 256", file=sys.stderr)
+        sys.exit(1)
+    
+    print(base64.b64encode(proc(encoded, n_bits)).decode("ascii"))
+
+if __name__ == "__main__":
+    main()
+`
