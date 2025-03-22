@@ -20,6 +20,7 @@ Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
   [net/http/httputil.NewSingleHostReverseProxy](https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy)
   instead of hand-wiring a half-broken proxy.
 - We should probably add a JS/WASM version for browsers that support them.
+- We should limit the request size.
 
 ## License
 
