@@ -62,6 +62,7 @@ func init() {
 </head>
 <body>
 <h1>Proof of Work Challenge</h1>
+<p>This site is protected by <a href="https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/">Powxy</a>.</p>
 <p>You must complete this proof of work challenge before you could access this site.</p>
 {{- if .Message }}
 <p><strong>{{ .Message }}</strong></p>
