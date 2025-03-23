@@ -18,7 +18,7 @@ func init() {
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Proof of Work Challenge</title>
+	<title>Proof-of-work challenge</title>
 	<style>
 		html {
 			font-family: sans-serif;
@@ -177,12 +177,12 @@ func init() {
 <body>
 	<main>
 		<header>
-			<h1>Proof of Work Challenge</h1>
+			<h1>Proof-of-work challenge</h1>
 		</header>
 
 		<section>
 			<p>This site is protected by <a href="{{ .Global.SourceURL }}">Powxy</a>{{ if .Global.Version }}, version {{ .Global.Version }}{{ end }}.</p>
-			<p>You must complete this proof of work challenge before you can access this site.</p>
+			<p>You must complete this proof-of-work challenge before you can access this site.</p>
 		</section>
 
 		{{- if .Message }}
