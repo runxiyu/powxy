@@ -5,6 +5,13 @@
 Powxy uses a SHA-256 proof-of-work challenge to protect upstream resources from
 scraper bots.
 
+## Demo
+
+A demo instance is available at [forge.runxiyu.org](https://forge.runxiyu.org/).
+I intend to remove this in the near future and set up an actual demo instance
+on somewhere sensible; forge.runxiyu.org doesn't get much bot traffic so it's
+a bit unnecessary.
+
 ## Credits
 
 Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
