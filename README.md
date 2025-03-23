@@ -6,10 +6,8 @@ as it becomes expensive for a client to perform en masse.
 
 ## Demo
 
-A demo instance is available at [forge.runxiyu.org](https://forge.runxiyu.org/).
-I intend to remove this in the near future and set up an actual demo instance
-on somewhere sensible; forge.runxiyu.org doesn't get much bot traffic so it's
-a bit unnecessary.
+A demo instance is available at [git.runxiyu.org](https://git.runxiyu.org/).
+It may experience occasional outages.
 
 ## Bugs
 
