@@ -25,6 +25,8 @@ It may experience occasional outages.
   cause issues if a user completes the challenge at the end of a rounded week.
 - SHA-256 is actually a pretty bad choice for proof-of-work. We should use
   something like bcrypt or scrypt or argon2.
+- Safari on iOS and iPadOS seem to unpredictably make their requests from
+  different address families, which causes the challenge to fail.
 
 ## Build
 
