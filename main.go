@@ -68,11 +68,11 @@ func init() {
 {{- if .Message }}
 <p><strong>{{ .Message }}</strong></p>
 {{- end }}
-<p>Select a value, such that when it is appended to the decoded form of the following base64 string, and a SHA-256 hash is taken as a whole, the first {{ .NeedBits }} bits of the SHA-256 hash are zeros. Within one octet, higher bits are considered to be in front of lower bits.</p>
+<p>Select an nonce shorter than or equal to 32 bytes, such that when it is appended to the decoded form of the following base64 string, and a SHA-256 hash is taken as a whole, the first {{ .NeedBits }} bits of the SHA-256 hash are zeros. Within one octet, higher bits are considered to be in front of lower bits.</p>
 <p>{{ .UnsignedTokenBase64 }}</p>
 <form method="POST">
 <p>
-Encode your selected value in base64 and submit it below:
+Encode your selected nonce in base64 and submit it below:
 </p>
 <input name="powxy" type="text" />
 <input type="submit" value="Submit" />
@@ -218,6 +218,11 @@ func main() {
 		nonce, err := base64.StdEncoding.DecodeString(formValues[0])
 		if err != nil {
 			authPage("Your submission was improperly encoded.")
+			return
+		}
+
+		if len(nonce) > 32 {
+			authPage("Your submission was too long.")
 			return
 		}
 
