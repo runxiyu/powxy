@@ -101,7 +101,7 @@ int main(int argc, char **argv)
 	}
 
 	size_t len = EVP_MD_size(EVP_sha256());
-	unsigned char digest[EVP_MAX_MD_SIZE];
+	unsigned char digest[len];
 	size_t next = 0;
 
 	while (1) {
