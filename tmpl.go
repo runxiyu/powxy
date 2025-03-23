@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			// Update status every 256 tries
 			if ((nonce & 0x00FFn) === 0n) {
-				status_el.textContent = "Tried " + nonce + " candidates so far...";
+				status_el.textContent = "Attempting to solve automatically via SubtleCrypto. Tried " + nonce + " candidates so far...";
 				await new Promise(r => setTimeout(r, 0));
 			}
 		}
