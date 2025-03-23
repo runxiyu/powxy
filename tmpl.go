@@ -86,6 +86,7 @@ func init() {
 
 		p, summary {
 			line-height: 1.2;
+			font-size: 1rem;
 		}
 
 		a {
@@ -94,6 +95,8 @@ func init() {
 		}
 
 		input[type="text"] {
+			font-family: monospace;
+			font-size: 1rem;
 			background-color: var(--lighter-box-background-color);
 			width: 100%;
 			padding: 0.5rem;
@@ -134,7 +137,6 @@ func init() {
 		}
 
 		#solver_status {
-			font-size: 0.9rem;
 			color: var(--light-text-color);
 			margin-top: 1rem;
 		}
