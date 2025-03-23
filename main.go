@@ -22,12 +22,14 @@ var (
 	difficulty uint
 	listenAddr string
 	destHost   string
+	secondary  bool
 )
 
 func init() {
 	flag.UintVar(&difficulty, "difficulty", 17, "leading zero bits required for the challenge")
 	flag.StringVar(&listenAddr, "listen", ":8081", "address to listen on")
 	flag.StringVar(&destHost, "upstream", "http://127.0.0.1:8080", "destination url base to proxy to")
+	flag.BoolVar(&secondary, "secondary", false, "trust X-Forwarded-For headers")
 	flag.Parse()
 }
 
@@ -63,7 +65,7 @@ type tparams struct {
 
 func main() {
 	log.Fatal(http.ListenAndServe(listenAddr, http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		log.Println(request.RemoteAddr, request.RequestURI)
+		log.Println(getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 
 		cookie, err := request.Cookie("powxy")
 		if err != nil {
@@ -144,17 +146,31 @@ func validateCookie(cookie *http.Cookie, expectedToken []byte) bool {
 	return subtle.ConstantTimeCompare(gotToken, expectedToken) == 1
 }
 
+func getRemoteIP(request *http.Request) (remoteIP string) {
+	if secondary {
+		remoteIP, _, _ = strings.Cut(request.Header.Get("X-Forwarded-For"), ",")
+	}
+	if remoteIP == "" {
+		remoteIP = request.RemoteAddr
+		index := strings.LastIndex(remoteIP, ":")
+		if index != -1 {
+			remoteIP = remoteIP[:index]
+		}
+	}
+	return
+}
+
 func makeSignedToken(request *http.Request) []byte {
 	buf := make([]byte, 0, 2*sha256.Size)
 
 	timeBuf := make([]byte, binary.MaxVarintLen64)
 	binary.PutVarint(timeBuf, time.Now().Unix()/604800)
 
-	remoteAddr, _, _ := strings.Cut(request.RemoteAddr, ":")
+	remoteIP := getRemoteIP(request)
 
 	h := sha256.New()
 	h.Write(timeBuf)
-	h.Write(stringToBytes(remoteAddr))
+	h.Write(stringToBytes(remoteIP))
 	h.Write(stringToBytes(request.Header.Get("User-Agent")))
 	h.Write(stringToBytes(request.Header.Get("Accept-Encoding")))
 	h.Write(stringToBytes(request.Header.Get("Accept-Language")))
