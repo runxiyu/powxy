@@ -15,8 +15,8 @@ import (
 
 type tparams struct {
 	Identifier string
-	Message                  string
-	Global                   any
+	Message    string
+	Global     any
 }
 
 func main() {
@@ -41,8 +41,8 @@ func main() {
 		authPage := func(message string) {
 			_ = tmpl.Execute(writer, tparams{
 				Identifier: base64.StdEncoding.EncodeToString(identifier),
-				Message:                  message,
-				Global:                   global,
+				Message:    message,
+				Global:     global,
 			})
 		}
 
