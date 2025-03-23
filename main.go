@@ -27,7 +27,7 @@ var (
 )
 
 func init() {
-	flag.UintVar(&difficulty, "difficulty", 20, "leading zero bits required for the challenge")
+	flag.UintVar(&difficulty, "difficulty", 17, "leading zero bits required for the challenge")
 	flag.StringVar(&listenAddr, "listen", ":8081", "address to listen on")
 	flag.StringVar(&destHost, "host", "127.0.0.1:8080", "destination host to proxy to")
 	flag.Parse()
