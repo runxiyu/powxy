@@ -3,7 +3,9 @@
 
 package main
 
-const solverProgram = `#include <openssl/evp.h>
+const solverProgram = `// You need to have OpenSSL, and link with -lcrypto
+
+#include <openssl/evp.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
 #include <stdbool.h>
