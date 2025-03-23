@@ -134,8 +134,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			nonce++;
 
-			// Update status every 65536 tries
-			if ((nonce & 0xFFFFn) === 0n) {
+			// Update status every 256 tries
+			if ((nonce & 0x00FFn) === 0n) {
 				status_el.textContent = "Tried " + nonce + " candidates so far...";
 				await new Promise(r => setTimeout(r, 0));
 			}
