@@ -11,10 +11,10 @@ import (
 	"flag"
 	"html"
 	"html/template"
-	"io"
 	"log"
-	"maps"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 	"strings"
 	"time"
 	"unsafe"
@@ -29,12 +29,8 @@ var (
 func init() {
 	flag.UintVar(&difficulty, "difficulty", 17, "leading zero bits required for the challenge")
 	flag.StringVar(&listenAddr, "listen", ":8081", "address to listen on")
-	flag.StringVar(&destHost, "host", "127.0.0.1:8080", "destination host to proxy to")
+	flag.StringVar(&destHost, "upstream", "http://127.0.0.1:8080", "destination url base to proxy to")
 	flag.Parse()
-}
-
-var client = http.Client{
-	CheckRedirect: func(req *http.Request, via []*http.Request) error { return http.ErrUseLastResponse },
 }
 
 var (
@@ -52,6 +48,16 @@ func init() {
 }
 
 var tmpl *template.Template
+
+var reverseProxy *httputil.ReverseProxy
+
+func init() {
+	parsedURL, err := url.Parse(destHost)
+	if err != nil {
+		log.Fatal(err)
+	}
+	reverseProxy = httputil.NewSingleHostReverseProxy(parsedURL)
+}
 
 func init() {
 	var err error
@@ -289,20 +295,7 @@ func makeSignedToken(request *http.Request) []byte {
 }
 
 func proxyRequest(writer http.ResponseWriter, request *http.Request) {
-	request.Host = destHost
-	request.URL.Host = destHost
-	request.URL.Scheme = "http"
-	request.RequestURI = ""
-
-	response, err := client.Do(request)
-	if err != nil {
-		http.Error(writer, err.Error(), http.StatusBadGateway)
-		return
-	}
-
-	maps.Copy(writer.Header(), response.Header)
-	writer.WriteHeader(response.StatusCode)
-	_, _ = io.Copy(writer, response.Body)
+	reverseProxy.ServeHTTP(writer, request)
 }
 
 func stringToBytes(s string) (bytes []byte) {

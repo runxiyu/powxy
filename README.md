@@ -23,9 +23,6 @@ Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
   be lost.
 - It does not work when duplex connections are needed, e.g. with Git's Smart
   HTTP protocol.
-- We should probably use
-  [net/http/httputil.NewSingleHostReverseProxy](https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy)
-  instead of hand-wiring a half-broken proxy.
 
 ## Contributing
 
