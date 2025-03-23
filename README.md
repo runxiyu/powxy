@@ -23,6 +23,8 @@ Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
   be lost.
 - It does not work when duplex connections are needed, e.g. with Git's Smart
   HTTP protocol.
+- Currently we round times to the nearest week for persistence, but this could
+  cause issues if a user completes the challenge at the end of a rounded week.
 
 ## Contributing
 
