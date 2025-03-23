@@ -23,20 +23,14 @@ a bit unnecessary.
 - Currently we round times to the nearest week for persistence, but this could
   cause issues if a user completes the challenge at the end of a rounded week.
 
-## Installation
+## Build
 
-You need a working Go installation. Then either
-
-```
-go install go.lindenii.runxiyu.org/powxy@latest
-```
-
-or
+You need a working Go installation.
 
 ```
 git clone ssh://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/
 cd powxy
-go install
+make
 ```
 
 ## Usage
@@ -49,6 +43,8 @@ Usage of ./powxy:
     	address to listen on (default ":8081")
   -secondary
     	trust X-Forwarded-For headers
+  -source string
+    	url to the source code (default "https://https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/")
   -upstream string
     	destination url base to proxy to (default "http://127.0.0.1:8080")
 ```

@@ -46,13 +46,15 @@ for the JavaScript code in this page.
 </script>
 </head>
 <body>
+<header>
 <h1>Proof of Work Challenge</h1>
-<p>This site is protected by <a href="https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/">Powxy</a>.</p>
+</header>
+<p>This site is protected by Powxy{{ if .Global.Version }} {{ .Global.Version }}{{ end }}.</p>
 <p>You must complete this proof of work challenge before you could access this site.</p>
 {{- if .Message }}
 <p><strong>{{ .Message }}</strong></p>
 {{- end }}
-<p>Select an nonce shorter than or equal to 32 bytes, such that when it is appended to the decoded form of the following base64 string, and a SHA-256 hash is taken as a whole, the first {{ .NeedBits }} bits of the SHA-256 hash are zeros. Within one octet, higher bits are considered to be in front of lower bits.</p>
+<p>Select an nonce shorter than or equal to 32 bytes, such that when it is appended to the decoded form of the following base64 string, and a SHA-256 hash is taken as a whole, the first {{ .Global.NeedBits }} bits of the SHA-256 hash are zeros. Within one octet, higher bits are considered to be in front of lower bits.</p>
 <p>{{ .UnsignedTokenBase64 }}</p>
 <form method="POST">
 <p>
@@ -69,11 +71,14 @@ Please note that if your submission is successful, you will be given a cookie th
 <summary>Offline solver program</summary>
 <pre>` + html.EscapeString(solverProgram) + `</pre>
 </details>
+<p>
+Powxy is free software: you can redistribute it and/or modify it under the terms of the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License, version 3</a>, as published by the Free Software Foundation. Powxy is distributed in the hope that it will be useful, but <strong>without any warranty</strong>; without even the implied warranty of <strong>merchantability</strong> or <strong>fitness for a particular purpose</strong>. See the GNU Affero General Public License for more details. The source code is available at {{ .Global.SourceURL }}
+</p>
 </body>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-	let challenge_b64 = "{{.UnsignedTokenBase64}}";
-	let difficulty = {{.NeedBits}};
+	let challenge_b64 = "{{ .UnsignedTokenBase64 }}";
+	let difficulty = {{ .Global.NeedBits }};
 	let form = document.querySelector("form");
 	let field = form.querySelector("input[name='powxy']");
 	let status_el = document.getElementById("solver_status");

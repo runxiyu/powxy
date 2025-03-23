@@ -15,8 +15,8 @@ import (
 
 type tparams struct {
 	UnsignedTokenBase64 string
-	NeedBits            uint
 	Message             string
+	Global              any
 }
 
 func main() {
@@ -42,7 +42,7 @@ func main() {
 			_ = tmpl.Execute(writer, tparams{
 				UnsignedTokenBase64: base64.StdEncoding.EncodeToString(expectedToken[:sha256.Size]),
 				Message:             message,
-				NeedBits:            difficulty,
+				Global:              global,
 			})
 		}
 
@@ -75,7 +75,7 @@ func main() {
 		h.Write(expectedToken[:sha256.Size])
 		h.Write(nonce)
 		ck := h.Sum(nil)
-		if !validateBitZeros(ck, difficulty) {
+		if !validateBitZeros(ck, global.NeedBits) {
 			authPage("Your submission was incorrect, or your session has expired while submitting.")
 			return
 		}
