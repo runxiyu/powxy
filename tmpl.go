@@ -63,10 +63,6 @@ func init() {
 		main {
 			max-width: 720px;
 			margin: 0 auto;
-			padding: 2rem;
-			background-color: var(--lighter-box-background-color);
-			box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-			border-radius: var(--radius-1);
 		}
 
 		*:focus-visible {
@@ -99,11 +95,12 @@ func init() {
 		}
 
 		input[type="text"] {
+			background-color: var(--lighter-box-background-color);
 			width: 100%;
 			padding: 0.5rem;
 			border-radius: var(--radius-1);
 			border: none;
-			box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+			box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15);
 			margin-bottom: 1rem;
 		}
 
@@ -124,10 +121,10 @@ func init() {
 
 		details {
 			margin-top: 2rem;
-			background-color: var(--darker-box-background-color);
+			background-color: var(--lighter-box-background-color);
 			padding: 0.5rem;
 			border-radius: var(--radius-1);
-			box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+			box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15);
 		}
 
 		pre {
@@ -175,7 +172,7 @@ for the JavaScript code in this page.
 		</header>
 
 		<section>
-			<p>This site is protected by Powxy{{ if .Global.Version }} {{ .Global.Version }}{{ end }}.</p>
+			<p>This site is protected by Powxy{{ if .Global.Version }}, version {{ .Global.Version }}{{ end }}.</p>
 			<p>You must complete this proof of work challenge before you can access this site.</p>
 		</section>
 
@@ -187,8 +184,8 @@ for the JavaScript code in this page.
 
 		<section>
 			<p>Select a nonce no longer than 32 bytes, such that when it is appended to the decoded form of the challenge token, and the entire result is hashed with SHA-256, the first {{ .Global.NeedBits }} bits of the SHA-256 hash are all zeros. Within one octet, higher bits are considered to come before lower bits.</p>
-			<label for="unsigned-token">Challenge token</label>
-			<input id="unsigned-token" type="text" readonly value="{{ .UnsignedTokenBase64 }}" />
+			<label for="unsigned-token">Challenge token (read-only)</label>
+			<input id="unsigned-token" type="text" readonly tabindex="-1" value="{{ .UnsignedTokenBase64 }}" />
 		</section>
 
 		<section>
