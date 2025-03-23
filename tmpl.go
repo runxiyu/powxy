@@ -125,7 +125,7 @@ func init() {
 		details {
 			margin-top: 2rem;
 			background-color: var(--darker-box-background-color);
-			padding: 1rem;
+			padding: 0.5rem;
 			border-radius: var(--radius-1);
 			box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
 		}
