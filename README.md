@@ -23,8 +23,10 @@ It may experience occasional outages.
   HTTP protocol.
 - Currently we round times to the nearest week for persistence, but this could
   cause issues if a user completes the challenge at the end of a rounded week.
-- SHA-256 is actually a pretty bad choice for proof-of-work. We should use
-  something like bcrypt or scrypt or argon2.
+- SHA-256 is actually a pretty bad choice for proof-of-work. I'm not sure what
+  what be a good solution though, it'd be nice to have something that's more
+  memory-hard, but password-based key derivation functions are too heavy
+  on the server.
 - Safari on iOS and iPadOS seem to unpredictably make their requests from
   different address families, which causes the challenge to fail.
 
