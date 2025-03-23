@@ -72,7 +72,7 @@ Please note that if your submission is successful, you will be given a cookie th
 <pre>` + html.EscapeString(solverProgram) + `</pre>
 </details>
 <p>
-Powxy is free software: you can redistribute it and/or modify it under the terms of the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License, version 3</a>, as published by the Free Software Foundation. Powxy is distributed in the hope that it will be useful, but <strong>without any warranty</strong>; without even the implied warranty of <strong>merchantability</strong> or <strong>fitness for a particular purpose</strong>. See the GNU Affero General Public License for more details. You may wish to view the <a href="{{ .Global.SourceURL }}">source code</a>.
+Powxy is free software: you can redistribute it and/or modify it under the terms of the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License, version 3</a>, as published by the Free Software Foundation. Powxy is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU Affero General Public License for more details. You may wish to view the <a href="{{ .Global.SourceURL }}">source code</a>.
 </p>
 </body>
 <script>
