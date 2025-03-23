@@ -81,7 +81,6 @@ func init() {
 
 		h1 {
 			margin-top: 0;
-			color: var(--primary-color);
 		}
 
 		p, summary {
@@ -98,6 +97,7 @@ func init() {
 			font-family: monospace;
 			font-size: 1rem;
 			background-color: var(--lighter-box-background-color);
+			color: var(--text-color);
 			width: 100%;
 			padding: 0.5rem;
 			border-radius: var(--radius-1);
@@ -132,6 +132,7 @@ func init() {
 
 		pre {
 			overflow-x: auto;
+			display: block;
 			white-space: pre-wrap;
 			word-break: break-word;
 		}
