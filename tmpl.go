@@ -183,7 +183,7 @@ func init() {
 		</header>
 
 		<section>
-			<p>This site is protected by <a href="{{ .Global.SourceURL }}">Powxy</a>{{ if .Global.Version }}, version {{ .Global.Version }}{{ end }}.</p>
+			<p>This site is protected by <a href="{{ .Global.SourceURL }}">Powxy</a>{{ if .Global.Version }} {{ .Global.Version }}{{ end }}.</p>
 			<p>You must complete this proof-of-work challenge before you can access this site.</p>
 		</section>
 
