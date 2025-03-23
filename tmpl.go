@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: BSD-2-Clause
 // SPDX-FileCopyrightText: Copyright (c) 2025 Runxi Yu <https://runxiyu.org>
 
 package main
@@ -146,20 +146,29 @@ func init() {
 		
 		Copyright (C) 2025  Runxi Yu
 		
-		The JavaScript code in this page is free software: you can
-		redistribute it and/or modify it under the terms of the GNU
-		General Public License (GNU GPL) as published by the Free Software
-		Foundation, either version 3 of the License, or (at your option)
-		any later version.  The code is distributed WITHOUT ANY WARRANTY;
-		without even the implied warranty of MERCHANTABILITY or FITNESS
-		FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions are
+		met:
 		
-		As additional permission under GNU GPL version 3 section 7, you
-		may distribute non-source (e.g., minimized or compacted) forms of
-		that code without the copy of the GNU GPL normally required by
-		section 4, provided you include this license notice and a URL
-		through which recipients can access the Corresponding Source.   
+		    1. Redistributions of source code must retain the above copyright
+		    notice, this list of conditions and the following disclaimer.
 		
+		    2. Redistributions in binary form must reproduce the above copyright
+		    notice, this list of conditions and the following disclaimer in the
+		    documentation and/or other materials provided with the distribution.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS "AS IS" AND ANY
+		EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+		IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+		PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+		CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+		EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+		PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+		PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+		LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+		NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+		SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 		@licend  The above is the entire license notice
 		for the JavaScript code in this page.
 		*/
@@ -172,7 +181,7 @@ func init() {
 		</header>
 
 		<section>
-			<p>This site is protected by Powxy{{ if .Global.Version }}, version {{ .Global.Version }}{{ end }}.</p>
+			<p>This site is protected by <a href="{{ .Global.SourceURL }}">Powxy</a>{{ if .Global.Version }}, version {{ .Global.Version }}{{ end }}.</p>
 			<p>You must complete this proof of work challenge before you can access this site.</p>
 		</section>
 
@@ -206,12 +215,6 @@ func init() {
 			<summary>Offline solver program</summary>
 			<pre>` + html.EscapeString(solverProgram) + `</pre>
 		</details>
-
-		<p>
-			Powxy is free software: you can redistribute it and/or modify it under the terms of the
-			<a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License, version 3</a>,
-			as published by the Free Software Foundation. Powxy is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU Affero General Public License for more details. You may wish to view the <a href="{{ .Global.SourceURL }}">source code</a>.
-		</p>
 	</main>
 
 	<script>
