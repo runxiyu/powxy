@@ -1,7 +1,5 @@
 # Powxy &ndash; anti-scraper reverse proxy
 
-**Work in progress.**
-
 Powxy uses a SHA-256 proof-of-work challenge to protect upstream resources from
 scraper bots.
 
