@@ -18,6 +18,7 @@ Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
 
 - **The cryptography hasn't been audited.** I wrote this after a tiring school
   week and this definitely needs some review.
+- We should allow Git clients and RSS readers.
 - If a user is attempting to submit a POST request but their powxy cookie is
   invalid, powxy would redirect them to a challenge, and their POST data will
   be lost.
