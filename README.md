@@ -11,6 +11,8 @@ Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
 
 ## Bugs
 
+- The cryptography hasn't been audited. I wrote this after a tiring school week
+  and this definitely needs some review.
 - If a user is attempting to submit a POST request but their powxy cookie is
   invalid, powxy would redirect them to a challenge, and their POST data will
   be lost.
@@ -19,8 +21,24 @@ Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
 - We should probably use
   [net/http/httputil.NewSingleHostReverseProxy](https://pkg.go.dev/net/http/httputil#NewSingleHostReverseProxy)
   instead of hand-wiring a half-broken proxy.
-- We should probably add a JS/WASM version for browsers that support them.
-- We should limit the request size.
+
+## Contributing
+
+Create a branch that begins with `contrib/` and push via SSH.
+
+```
+git clone https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/
+cd powxy
+git checkout -b contrib/whatever
+# edit and commit stuff
+git push -u origin HEAD
+```
+
+## Support
+
+[`#chat`](https://webirc.runxiyu.org/kiwiirc/#chat)
+on
+[irc.runxiyu.org](https://irc.runxiyu.org/).
 
 ## License
 
