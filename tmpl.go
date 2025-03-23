@@ -27,17 +27,19 @@ func init() {
 <p>{{ .UnsignedTokenBase64 }}</p>
 <form method="POST">
 <p>
-Encode your selected nonce in base64 and submit it below:
+Encode your selected nonce in base64 and submit it below.
+</p>
+<p>
+Please note that if your submission is successful, you will be given a cookie that will allow you to access this site for a period of time without having to complete the challenge again. By pressing the submit button, you agree to be given cookies for this purpose.
 </p>
 <input name="powxy" type="text" />
 <input type="submit" value="Submit" />
 </form>
-<br />
+<p id="solver_status"></p>
 <details>
-<summary>Program to solve this</summary>
+<summary>Offline solver program</summary>
 <pre>` + html.EscapeString(solverProgram) + `</pre>
 </details>
-<p id="solver_status"></p>
 </body>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -82,8 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				let nonce_str = String.fromCharCode(...new Uint8Array(buf));
 				field.value = btoa(nonce_str);
 
-				status_el.textContent = "Solution found. Submitting...";
-				form.submit();
+				status_el.textContent = "Solution found. Please press the submit button.";
 				return;
 			}
 
