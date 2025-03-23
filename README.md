@@ -23,6 +23,8 @@ It may experience occasional outages.
   HTTP protocol.
 - Currently we round times to the nearest week for persistence, but this could
   cause issues if a user completes the challenge at the end of a rounded week.
+- SHA-256 is actually a pretty bad choice for proof-of-work. We should use
+  something like bcrypt or scrypt or argon2.
 
 ## Build
 
