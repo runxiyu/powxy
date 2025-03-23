@@ -183,6 +183,7 @@ func main() {
 		if err != nil {
 			if !errors.Is(err, http.ErrNoCookie) {
 				http.Error(writer, "error fetching cookie", http.StatusInternalServerError)
+				return
 			}
 		}
 
