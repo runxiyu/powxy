@@ -3,7 +3,11 @@
 
 package main
 
-const solverProgram = `// You need to have OpenSSL, and link with -lcrypto
+const solverProgram = `// This is a reference implementation of the proof of work solver in C.
+// For security reasons, it is recommended that you read and understand the
+// entire program first if you actually want to run it.
+//
+// You need to have OpenSSL, and link with -lcrypto
 
 #include <openssl/evp.h>
 #include <openssl/bio.h>
