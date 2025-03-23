@@ -260,7 +260,7 @@ for the JavaScript code in this page.
 					let nonce_str = String.fromCharCode(...new Uint8Array(buf));
 					field.value = btoa(nonce_str);
 
-					status_el.textContent = "A solution has been found automatically.";
+					status_el.textContent = "A solution has been found automatically in " + nonce + " iterations.";
 					return;
 				}
 
