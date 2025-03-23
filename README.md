@@ -29,10 +29,12 @@ Inspired by [Anubis](https://github.com/TecharoHQ/anubis). But much simpler.
 
 ## Contributing
 
-Create a branch that begins with `contrib/` and push via SSH.
+Create a branch that begins with `contrib/` and push to
+[the repo on our home forge](https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/)
+via SSH.
 
 ```
-git clone https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/
+git clone ssh://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/
 cd powxy
 git checkout -b contrib/whatever
 # edit and commit stuff
