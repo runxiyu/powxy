@@ -9,7 +9,7 @@ import (
 	"text/template"
 )
 
-//go:embed challenge.tmpl
+//go:embed challenge.html
 var tmplString string
 var tmpl *template.Template
 

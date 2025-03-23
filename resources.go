@@ -3,4 +3,10 @@
 
 package main
 
-const solverProgram = ``
+import (
+	"embed"
+)
+
+//go:embed wasm/*.wasm
+//go:embed static/*
+var resourcesFS embed.FS

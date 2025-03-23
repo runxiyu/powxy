@@ -21,6 +21,11 @@ type tparams struct {
 
 func main() {
 	log.Fatal(http.ListenAndServe(listenAddr, http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		if strings.HasPrefix(request.URL.Path, "/.powxy/") {
+			http.StripPrefix("/.powxy/", http.FileServer(http.FS(resourcesFS))).ServeHTTP(writer, request)
+			return
+		}
+
 		cookie, err := request.Cookie("powxy")
 		if err != nil {
 			if !errors.Is(err, http.ErrNoCookie) {

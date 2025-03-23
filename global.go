@@ -8,4 +8,6 @@ var global = struct {
 	NeedBitsReverse uint
 	SourceURL       string
 	Version         string
-}{}
+}{
+	Version: "(no version)",
+}

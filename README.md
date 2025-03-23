@@ -32,7 +32,7 @@ It may experience occasional outages.
 
 ## Build
 
-You need a working Go installation.
+You need a working Go installation, along with Clang and LLD for WebAssembly.
 
 ```
 git clone ssh://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/
