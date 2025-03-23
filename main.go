@@ -45,6 +45,7 @@ func main() {
 				Global:     global,
 			})
 			if err != nil {
+				log.Println("Error executing template:", err)
 			}
 		}
 
