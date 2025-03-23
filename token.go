@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func makeSignedToken(request *http.Request) (identifier []byte, mac []byte) {
+func makeIdentifierMAC(request *http.Request) (identifier []byte, mac []byte) {
 	identifier = make([]byte, 0, sha256.Size)
 	mac = make([]byte, 0, sha256.Size)
 

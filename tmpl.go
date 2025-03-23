@@ -192,16 +192,16 @@ func init() {
 		{{- end }}
 
 		<section>
-			<p>Select a nonce no longer than 32 bytes, such that when it is appended to the decoded form of the challenge token, and the entire result is hashed with SHA-256, the first {{ .Global.NeedBits }} bits of the SHA-256 hash are all zeros. Within one octet, higher bits are considered to come before lower bits.</p>
-			<label for="unsigned-token">Challenge token (read-only)</label>
-			<input id="unsigned-token" type="text" readonly disabled tabindex="-1" value="{{ .UnsignedTokenBase64 }}" />
+			<p>Select a nonce no longer than 32 bytes, such that when it is appended to the decoded form of the challenge identifier, and the entire result is hashed with SHA-256, the first {{ .Global.NeedBits }} bits of the SHA-256 hash are all zeros. Within one octet, higher bits are considered to come before lower bits.</p>
+			<label for="unsigned-identifier">Challenge identifier (read-only)</label>
+			<input id="unsigned-identifier" type="text" readonly disabled tabindex="-1" value="{{ .Identifier }}" />
 		</section>
 
 		<section>
 			<form method="POST">
 				<p>Encode your selected nonce in base64 and submit it below.</p>
 				<p>Please note that if your submission is successful, you will be given a cookie that will allow you to access this site for a period of time without having to complete the challenge again. By pressing the submit button, you agree to be given cookies for this purpose.</p>
-				<label id="nonce" for="unsigned-token">Nonce</label>
+				<label for="nonce">Nonce</label>
 				<input id="nonce" name="powxy" type="text" />
 				<input type="submit" value="Submit" />
 			</form>
@@ -219,7 +219,7 @@ func init() {
 
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-			let challenge_b64 = "{{ .UnsignedTokenBase64 }}";
+			let challenge_b64 = "{{ .Identifier }}";
 			let difficulty = {{ .Global.NeedBits }};
 			let form = document.querySelector("form");
 			let field = form.querySelector("input[name='powxy']");
@@ -237,7 +237,7 @@ func init() {
 			});
 	
 			async function solve_pow() {
-				let token_bytes = Uint8Array.from(
+				let identifier_bytes = Uint8Array.from(
 					atob(challenge_b64),
 					ch => ch.charCodeAt(0)
 				);
@@ -249,9 +249,9 @@ func init() {
 				while (solver_active) {
 					view.setBigUint64(0, nonce, true);
 	
-					let candidate = new Uint8Array(token_bytes.length + 8);
-					candidate.set(token_bytes, 0);
-					candidate.set(new Uint8Array(buf), token_bytes.length);
+					let candidate = new Uint8Array(identifier_bytes.length + 8);
+					candidate.set(identifier_bytes, 0);
+					candidate.set(new Uint8Array(buf), identifier_bytes.length);
 	
 					let digest_buffer = await crypto.subtle.digest("SHA-256", candidate);
 					let digest = new Uint8Array(digest_buffer);

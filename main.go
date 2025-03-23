@@ -14,9 +14,9 @@ import (
 )
 
 type tparams struct {
-	UnsignedTokenBase64 string
-	Message             string
-	Global              any
+	Identifier string
+	Message                  string
+	Global                   any
 }
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 			}
 		}
 
-		identifier, expectedMAC := makeSignedToken(request)
+		identifier, expectedMAC := makeIdentifierMAC(request)
 
 		if validateCookie(cookie, expectedMAC) {
 			proxyRequest(writer, request)
@@ -40,9 +40,9 @@ func main() {
 
 		authPage := func(message string) {
 			_ = tmpl.Execute(writer, tparams{
-				UnsignedTokenBase64: base64.StdEncoding.EncodeToString(identifier),
-				Message:             message,
-				Global:              global,
+				Identifier: base64.StdEncoding.EncodeToString(identifier),
+				Message:                  message,
+				Global:                   global,
 			})
 		}
 
@@ -94,12 +94,12 @@ func validateCookie(cookie *http.Cookie, expectedMAC []byte) bool {
 		return false
 	}
 
-	gotToken, err := base64.StdEncoding.DecodeString(cookie.Value)
+	gotMAC, err := base64.StdEncoding.DecodeString(cookie.Value)
 	if err != nil {
 		return false
 	}
 
-	return subtle.ConstantTimeCompare(gotToken, expectedMAC) == 1
+	return subtle.ConstantTimeCompare(gotMAC, expectedMAC) == 1
 }
 
 func getRemoteIP(request *http.Request) (remoteIP string) {
