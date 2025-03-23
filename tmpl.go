@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				let nonce_str = String.fromCharCode(...new Uint8Array(buf));
 				field.value = btoa(nonce_str);
 
-				status_el.textContent = "Solution found. Please press the submit button.";
+				status_el.textContent = "Solution found.";
 				return;
 			}
 
