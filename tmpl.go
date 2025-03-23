@@ -101,6 +101,7 @@ func init() {
 			border: none;
 			box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15);
 			margin-bottom: 1rem;
+			box-sizing: border-box;
 		}
 
 		input[type="submit"] {
