@@ -16,18 +16,19 @@ const solverProgram = `// You need to have OpenSSL, and link with -lcrypto
 #include <stdlib.h>
 #include <errno.h>
 
-bool validate_bit_zeros(const unsigned char *bs, uint8_t n)
+bool validate_bit_zeros(const unsigned char *bs, unsigned long n)
 {
-	uint8_t q = n / 8;
-	uint8_t r = n % 8;
+	unsigned long q = n / CHAR_BIT;
+	unsigned char r = n % CHAR_BIT;
 
-	for (uint8_t i = 0; i < q; i++) {
+	for (unsigned long i = 0; i < q; i++) {
 		if (bs[i] != 0)
 			return false;
 	}
 
 	if (r > 0) {
-		unsigned char mask = (unsigned char)(0xFF << (8 - r));
+		unsigned char mask =
+		    (unsigned char)(UCHAR_MAX << (CHAR_BIT - r));
 		if (bs[q] & mask)
 			return false;
 	}
@@ -53,14 +54,13 @@ int main(int argc, char **argv)
 
 	char *endptr = NULL;
 	errno = 0;
-	unsigned long tmp_val = strtoul(argv[2], &endptr, 10);
-	if ((errno == ERANGE && tmp_val == ULONG_MAX) || *endptr != '\0'
-	    || tmp_val > UINT8_MAX) {
+	unsigned long difficulty = strtoul(argv[2], &endptr, 10);
+	if ((difficulty == ULONG_MAX && errno == ERANGE) || *endptr != '\0'
+	    || difficulty > 256) {
 		fprintf(stderr, "invalid difficulty value\n");
 		free(base64_data);
 		return 1;
 	}
-	uint8_t difficulty = (uint8_t) tmp_val;
 
 	BIO *b64 = BIO_new(BIO_f_base64());
 	BIO *bmem = BIO_new_mem_buf(base64_data, (int)base64_data_len);
