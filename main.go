@@ -39,11 +39,13 @@ func main() {
 		}
 
 		authPage := func(message string) {
-			_ = tmpl.Execute(writer, tparams{
+			err := tmpl.Execute(writer, tparams{
 				Identifier: base64.StdEncoding.EncodeToString(identifier),
 				Message:    message,
 				Global:     global,
 			})
+			if err != nil {
+			}
 		}
 
 		if request.ParseForm() != nil {

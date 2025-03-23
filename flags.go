@@ -18,4 +18,5 @@ func init() {
 	flag.StringVar(&destHost, "upstream", "http://127.0.0.1:8080", "destination url base to proxy to")
 	flag.BoolVar(&secondary, "secondary", false, "trust X-Forwarded-For headers")
 	flag.Parse()
+	global.NeedBitsReverse = 256 - global.NeedBits
 }

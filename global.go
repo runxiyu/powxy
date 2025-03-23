@@ -4,7 +4,8 @@
 package main
 
 var global = struct {
-	NeedBits  uint
-	SourceURL string
-	Version   string
+	NeedBits        uint
+	NeedBitsReverse uint
+	SourceURL       string
+	Version         string
 }{}
