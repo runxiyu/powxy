@@ -15,7 +15,6 @@ import (
 	"net/url"
 	"strings"
 	"time"
-	"unsafe"
 )
 
 var (
@@ -192,8 +191,4 @@ func makeSignedToken(request *http.Request) []byte {
 
 func proxyRequest(writer http.ResponseWriter, request *http.Request) {
 	reverseProxy.ServeHTTP(writer, request)
-}
-
-func stringToBytes(s string) (bytes []byte) {
-	return unsafe.Slice(unsafe.StringData(s), len(s))
 }
