@@ -13,8 +13,7 @@ var tmpl *template.Template
 
 func init() {
 	var err error
-	tmpl, err = template.New("powxy").Parse(`
-<!DOCTYPE html>
+	tmpl, err = template.New("powxy").Parse(`<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -291,8 +290,7 @@ for the JavaScript code in this page.
 	});
 	</script>
 </body>
-</html>
-`)
+</html>`)
 	if err != nil {
 		log.Fatal(err)
 	}

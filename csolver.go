@@ -3,8 +3,7 @@
 
 package main
 
-const solverProgram = `
-#include <openssl/evp.h>
+const solverProgram = `#include <openssl/evp.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
 #include <stdbool.h>
@@ -179,5 +178,4 @@ int main(int argc, char **argv)
 
 	BIO_free_all(b64_out);
 	return 0;
-}
-`
+}`
