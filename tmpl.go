@@ -185,7 +185,7 @@ for the JavaScript code in this page.
 		<section>
 			<p>Select a nonce no longer than 32 bytes, such that when it is appended to the decoded form of the challenge token, and the entire result is hashed with SHA-256, the first {{ .Global.NeedBits }} bits of the SHA-256 hash are all zeros. Within one octet, higher bits are considered to come before lower bits.</p>
 			<label for="unsigned-token">Challenge token (read-only)</label>
-			<input id="unsigned-token" type="text" readonly tabindex="-1" value="{{ .UnsignedTokenBase64 }}" />
+			<input id="unsigned-token" type="text" readonly disabled tabindex="-1" value="{{ .UnsignedTokenBase64 }}" />
 		</section>
 
 		<section>
