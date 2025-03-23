@@ -194,7 +194,7 @@ func main() {
 		}
 
 		authPage := func(message string) {
-			tmpl.Execute(writer, tparams{
+			_ = tmpl.Execute(writer, tparams{
 				UnsignedTokenBase64: base64.StdEncoding.EncodeToString(expectedToken[:sha256.Size]),
 				Message:             message,
 				NeedBits:            difficulty,
@@ -296,7 +296,7 @@ func proxyRequest(writer http.ResponseWriter, request *http.Request) {
 
 	maps.Copy(writer.Header(), response.Header)
 	writer.WriteHeader(response.StatusCode)
-	io.Copy(writer, response.Body)
+	_, _ = io.Copy(writer, response.Body)
 }
 
 func stringToBytes(s string) (bytes []byte) {
