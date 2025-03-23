@@ -89,8 +89,9 @@ func main() {
 		}
 
 		http.SetCookie(writer, &http.Cookie{
-			Name:  "powxy",
-			Value: base64.StdEncoding.EncodeToString(expectedMAC),
+			Name:   "powxy",
+			Value:  base64.StdEncoding.EncodeToString(expectedMAC),
+			Secure: true,
 		})
 
 		log.Println("ACCEPTED", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
