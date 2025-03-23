@@ -21,11 +21,10 @@ type tparams struct {
 
 func main() {
 	log.Fatal(http.ListenAndServe(listenAddr, http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		log.Println(getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
-
 		cookie, err := request.Cookie("powxy")
 		if err != nil {
 			if !errors.Is(err, http.ErrNoCookie) {
+				log.Println("COOKIE_ERR", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 				http.Error(writer, "error fetching cookie", http.StatusInternalServerError)
 				return
 			}
@@ -34,6 +33,7 @@ func main() {
 		identifier, expectedMAC := makeIdentifierMAC(request)
 
 		if validateCookie(cookie, expectedMAC) {
+			log.Println("PROXY", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 			proxyRequest(writer, request)
 			return
 		}
@@ -49,26 +49,31 @@ func main() {
 		}
 
 		if request.ParseForm() != nil {
+			log.Println("MALFORMED", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 			authPage("You submitted a malformed form.")
 			return
 		}
 
 		formValues, ok := request.PostForm["powxy"]
 		if !ok {
+			log.Println("CHALLENGE", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 			authPage("")
 			return
 		} else if len(formValues) != 1 {
+			log.Println("FORM_VALUES", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 			authPage("You submitted an invalid number of form values.")
 			return
 		}
 
 		nonce, err := base64.StdEncoding.DecodeString(formValues[0])
 		if err != nil {
+			log.Println("BASE64", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 			authPage("Your submission was improperly encoded.")
 			return
 		}
 
 		if len(nonce) > 32 {
+			log.Println("TOO_LONG", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 			authPage("Your submission was too long.")
 			return
 		}
@@ -78,6 +83,7 @@ func main() {
 		h.Write(nonce)
 		ck := h.Sum(nil)
 		if !validateBitZeros(ck, global.NeedBits) {
+			log.Println("WRONG", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 			authPage("Your submission was incorrect, or your session has expired while submitting.")
 			return
 		}
@@ -87,6 +93,7 @@ func main() {
 			Value: base64.StdEncoding.EncodeToString(expectedMAC),
 		})
 
+		log.Println("ACCEPTED", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 		http.Redirect(writer, request, "", http.StatusSeeOther)
 	})))
 }
