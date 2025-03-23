@@ -62,9 +62,9 @@ Otherwise, the client is presented with a challenge, which asks them to find
 a nonce that, when appended to the identifier, results in a SHA-256 hash that
 begins with a certain number of zero bits. The client must solve the challenge
 and submit it through an HTML form, which is then validated by the proxy. If
-validation passes, the client is issued a cookie containing their identifier
-and its HMAC, and is redirected to request the page again, this time with the
-necessary cookie to pass the validation.
+validation passes, the client is issued a cookie containing their identifier's
+HMAC, and is redirected to request the page again, this time with the necessary
+cookie to pass the validation.
 
 JavaScript is provided to automatically solve the challenge without user
 interaction. Clients that do not run JavaScript need to solve the challenge

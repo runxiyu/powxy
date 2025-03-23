@@ -31,16 +31,16 @@ func main() {
 			}
 		}
 
-		expectedToken := makeSignedToken(request)
+		identifier, expectedMAC := makeSignedToken(request)
 
-		if validateCookie(cookie, expectedToken) {
+		if validateCookie(cookie, expectedMAC) {
 			proxyRequest(writer, request)
 			return
 		}
 
 		authPage := func(message string) {
 			_ = tmpl.Execute(writer, tparams{
-				UnsignedTokenBase64: base64.StdEncoding.EncodeToString(expectedToken[:sha256.Size]),
+				UnsignedTokenBase64: base64.StdEncoding.EncodeToString(identifier),
 				Message:             message,
 				Global:              global,
 			})
@@ -72,7 +72,7 @@ func main() {
 		}
 
 		h := sha256.New()
-		h.Write(expectedToken[:sha256.Size])
+		h.Write(identifier)
 		h.Write(nonce)
 		ck := h.Sum(nil)
 		if !validateBitZeros(ck, global.NeedBits) {
@@ -82,14 +82,14 @@ func main() {
 
 		http.SetCookie(writer, &http.Cookie{
 			Name:  "powxy",
-			Value: base64.StdEncoding.EncodeToString(expectedToken),
+			Value: base64.StdEncoding.EncodeToString(expectedMAC),
 		})
 
 		http.Redirect(writer, request, "", http.StatusSeeOther)
 	})))
 }
 
-func validateCookie(cookie *http.Cookie, expectedToken []byte) bool {
+func validateCookie(cookie *http.Cookie, expectedMAC []byte) bool {
 	if cookie == nil {
 		return false
 	}
@@ -99,7 +99,7 @@ func validateCookie(cookie *http.Cookie, expectedToken []byte) bool {
 		return false
 	}
 
-	return subtle.ConstantTimeCompare(gotToken, expectedToken) == 1
+	return subtle.ConstantTimeCompare(gotToken, expectedMAC) == 1
 }
 
 func getRemoteIP(request *http.Request) (remoteIP string) {
