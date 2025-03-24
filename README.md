@@ -1,3 +1,6 @@
+**Branch information:** This branch contains a version that uses IRC for
+logging. Connection details are hardcoded. You should probably not use this.
+
 # Powxy &ndash; anti-scraper reverse proxy
 
 Powxy is a reverse proxy that protects your upstream service by challenging
