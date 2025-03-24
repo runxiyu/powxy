@@ -13,6 +13,27 @@ every hour.
 A demo instance is available at [git.runxiyu.org](https://git.runxiyu.org/).
 It may experience occasional outages.
 
+## Mechanism
+
+The client sends a request to the proxy. The proxy hashes information about the
+client's IP address and user agent to generate an identifier. It checks whether
+the client has a cookie containing an HMAC of the identifier. The connection is
+forwarded to the upstream server if and only if the identifier matches and the
+HMAC is valid.
+
+Otherwise, the client is presented with a challenge, which asks them to find
+a nonce that, when appended to the identifier, results in a SHA-256 hash that
+begins with a certain number of zero bits. The client must solve the challenge
+and submit it through an HTML form, which is then validated by the proxy. If
+validation passes, the client is issued a cookie containing their identifier's
+HMAC, and is redirected to request the page again, this time with the necessary
+cookie to pass the validation.
+
+JavaScript is provided to automatically solve the challenge without user
+interaction; the current solver requires WebAssembly. Clients that do not run
+JavaScript need to solve the challenge externally, e.g. via the C program
+provided near the HTML form, and submit their nonce manually.
+
 ## Bugs
 
 - **The cryptography hasn't been audited.** I wrote this after a tiring school
@@ -57,27 +78,6 @@ Usage of ./powxy:
   -upstream string
     	destination url base to proxy to (default "http://127.0.0.1:8080")
 ```
-
-## Mechanism
-
-The client sends a request to the proxy. The proxy hashes information about the
-client's IP address and user agent to generate an identifier. It checks whether
-the client has a cookie containing an HMAC of the identifier. The connection is
-forwarded to the upstream server if and only if the identifier matches and the
-HMAC is valid.
-
-Otherwise, the client is presented with a challenge, which asks them to find
-a nonce that, when appended to the identifier, results in a SHA-256 hash that
-begins with a certain number of zero bits. The client must solve the challenge
-and submit it through an HTML form, which is then validated by the proxy. If
-validation passes, the client is issued a cookie containing their identifier's
-HMAC, and is redirected to request the page again, this time with the necessary
-cookie to pass the validation.
-
-JavaScript is provided to automatically solve the challenge without user
-interaction; the current solver requires WebAssembly. Clients that do not run
-JavaScript need to solve the challenge externally, e.g. via the C program
-provided near the HTML form, and submit their nonce manually.
 
 ## Contribute
 
