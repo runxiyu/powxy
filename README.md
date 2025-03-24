@@ -113,6 +113,11 @@ git checkout -b contrib/whatever
 git push -u origin HEAD
 ```
 
+Pushes that update branches in other namespaces, or pushes to existing
+contribution branches belonging to other SSH keys, will be automatically
+rejected. Otherwise, a merge request is automatically opened, and the
+maintainers are notified via IRC.
+
 ## Support
 
 [`#chat`](https://webirc.runxiyu.org/kiwiirc/#chat)
