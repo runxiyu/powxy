@@ -71,9 +71,9 @@ HMAC, and is redirected to request the page again, this time with the necessary
 cookie to pass the validation.
 
 JavaScript is provided to automatically solve the challenge without user
-interaction. Clients that do not run JavaScript need to solve the challenge
-externally, e.g. via the C program provided near the HTML form, and submit
-their nonce manually.
+interaction; the current solver requires WebAssembly. Clients that do not run
+JavaScript need to solve the challenge externally, e.g. via the C program
+provided near the HTML form, and submit their nonce manually.
 
 ## Contribute
 
