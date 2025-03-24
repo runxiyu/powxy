@@ -20,6 +20,8 @@ func makeIdentifierMAC(request *http.Request) (identifier []byte, mac []byte) {
 
 	remoteIP := getRemoteIP(request)
 
+	// It is safe to use stringToBytes here as h.Write does not modify its
+	// argument.
 	h := sha256.New()
 	h.Write(timeBuf)
 	h.Write(stringToBytes(remoteIP))
