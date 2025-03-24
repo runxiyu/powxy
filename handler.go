@@ -6,13 +6,17 @@ package main
 import (
 	"encoding/base64"
 	"errors"
-	"log"
+	"log/slog"
 	"net/http"
 	"strings"
 )
 
 // handler handles an incoming HTTP request.
 func handler(writer http.ResponseWriter, request *http.Request) {
+	remoteIP := getRemoteIP(request)
+	userAgent := request.Header.Get("User-Agent")
+	uri := request.RequestURI
+
 	// Static resources for powxy itself.
 	if strings.HasPrefix(request.URL.Path, "/.powxy/") {
 		http.StripPrefix("/.powxy/", http.FileServer(http.FS(resourcesFS))).ServeHTTP(writer, request)
@@ -25,7 +29,12 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// will be prompted to solve the PoW challenge.
 	cookie, err := request.Cookie("powxy")
 	if err != nil && !errors.Is(err, http.ErrNoCookie) {
-		log.Println("COOKIE_ERR", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+		slog.Error("error fetching cookie",
+			"ip", remoteIP,
+			"uri", uri,
+			"user_agent", userAgent,
+			"error", err,
+		)
 		http.Error(writer, "error fetching cookie", http.StatusInternalServerError)
 		return
 	}
@@ -37,7 +46,11 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// If the cookie exists and is valid, we simply proxy the
 	// request.
 	if validateCookie(cookie, expectedMAC) {
-		log.Println("PROXY", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+		slog.Info("proxying request",
+			"ip", remoteIP,
+			"uri", uri,
+			"user_agent", userAgent,
+		)
 		proxyRequest(writer, request)
 		return
 	}
@@ -52,14 +65,25 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 			Global:     global,
 		})
 		if err != nil {
-			log.Println("Error executing template:", err)
+			slog.Error("template execution failed",
+				"ip", remoteIP,
+				"uri", uri,
+				"user_agent", userAgent,
+				"error", err,
+			)
 		}
 	}
 
 	// This generally shouldn't happen, at least not for web
 	// browesrs.
-	if request.ParseForm() != nil {
-		log.Println("MALFORMED", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+	err = request.ParseForm()
+	if err != nil {
+		slog.Warn("malformed form submission",
+			"ip", remoteIP,
+			"uri", uri,
+			"user_agent", userAgent,
+			"error", err,
+		)
 		challengePage("You submitted a malformed form.")
 		return
 	}
@@ -69,13 +93,21 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 		// If there's simply no form value, the user is probably
 		// just visiting the site for the first time or with an
 		// expired cookie.
-		log.Println("CHALLENGE", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+		slog.Info("serving challenge page",
+			"ip", remoteIP,
+			"uri", uri,
+			"user_agent", userAgent,
+		)
 		challengePage("")
 		return
 	} else if len(formValues) != 1 {
 		// This should never happen, at least not for web
 		// browsers.
-		log.Println("FORM_VALUES", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+		slog.Warn("invalid number of form values",
+			"ip", remoteIP,
+			"uri", uri,
+			"user_agent", userAgent,
+		)
 		challengePage("You submitted an invalid number of form values.")
 		return
 	}
@@ -83,7 +115,12 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// We validate that the length is reasonable before even
 	// decoding it with base64.
 	if len(formValues[0]) > 43 {
-		log.Println("TOO_LONG", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+		slog.Warn("submission too long",
+			"ip", remoteIP,
+			"uri", uri,
+			"user_agent", userAgent,
+			"form_value", formValues[0],
+		)
 		challengePage("Your submission was too long.")
 		return
 	}
@@ -91,14 +128,23 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// Actually decode the base64 value.
 	nonce, err := base64.StdEncoding.DecodeString(formValues[0])
 	if err != nil {
-		log.Println("BASE64", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+		slog.Warn("base64 decoding failed",
+			"ip", remoteIP,
+			"uri", uri,
+			"user_agent", userAgent,
+			"error", err,
+		)
 		challengePage("Your submission was improperly encoded.")
 		return
 	}
 
 	// Validate the nonce.
 	if !validateNonce(identifier, nonce) {
-		log.Println("WRONG", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+		slog.Warn("wrong nonce",
+			"ip", remoteIP,
+			"uri", uri,
+			"user_agent", userAgent,
+		)
 		challengePage("Your submission was incorrect, or your session has expired while submitting.")
 		return
 	}
@@ -116,7 +162,11 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 		HttpOnly: true,
 	})
 
-	log.Println("ACCEPTED", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+	slog.Info("accepted proof of work",
+		"ip", remoteIP,
+		"uri", uri,
+		"user_agent", userAgent,
+	)
 	http.Redirect(writer, request, "", http.StatusSeeOther)
 }
 
