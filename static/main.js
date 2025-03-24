@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 		let { nonce, nonce_bytes } = e.data;
 		let nonce_str = String.fromCharCode(...nonce_bytes);
 		field.value = btoa(nonce_str);
-		status_el.textContent = "Challenge solved automatically in " + nonce + " iterations";
+		status_el.textContent = "Challenge solved automatically in " + nonce + " iterations.";
 	};
 
 	worker.postMessage({ identifier_bytes, difficulty });

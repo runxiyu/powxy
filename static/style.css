@@ -111,7 +111,3 @@ details {
 	border-radius: var(--radius-1);
 	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15);
 }
-
-.somewhat-transparent {
-	opacity: 0.78;
-}
