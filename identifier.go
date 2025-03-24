@@ -6,11 +6,15 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha256"
+	"crypto/subtle"
+	"encoding/base64"
 	"encoding/binary"
 	"net/http"
 	"time"
 )
 
+// makeIdentifierMAC generates an identifier that semi-uniquely identifies the client,
+// and generates a MAC for that identifier.
 func makeIdentifierMAC(request *http.Request) (identifier []byte, mac []byte) {
 	identifier = make([]byte, 0, sha256.Size)
 	mac = make([]byte, 0, sha256.Size)
@@ -36,4 +40,19 @@ func makeIdentifierMAC(request *http.Request) (identifier []byte, mac []byte) {
 	mac = m.Sum(mac)
 
 	return
+}
+
+// validateCookie checks if the cookie is valid by comparing the base64-decoded
+// value of the cookie with an expected MAC.
+func validateCookie(cookie *http.Cookie, expectedMAC []byte) bool {
+	if cookie == nil {
+		return false
+	}
+
+	gotMAC, err := base64.StdEncoding.DecodeString(cookie.Value)
+	if err != nil {
+		return false
+	}
+
+	return subtle.ConstantTimeCompare(gotMAC, expectedMAC) == 1
 }

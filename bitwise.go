@@ -3,6 +3,7 @@
 
 package main
 
+// validateBitZeros checks if the first n bits of a byte slice are all zeros.
 func validateBitZeros(bs []byte, n uint) bool {
 	q := n / 8
 	r := n % 8

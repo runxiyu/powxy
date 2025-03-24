@@ -10,10 +10,15 @@ import (
 )
 
 var (
-	privkey     = make([]byte, 32)
+	// The private key used to HMAC the challenge.
+	privkey = make([]byte, 32)
+
+	// The hash of the private key. We use this as an element of the
+	// identifier.
 	privkeyHash = make([]byte, 0, sha256.Size)
 )
 
+// This init generates a random private key and its hash.
 func init() {
 	if _, err := rand.Read(privkey); err != nil {
 		log.Fatal(err)

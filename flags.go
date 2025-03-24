@@ -11,6 +11,7 @@ var (
 	secondary  bool
 )
 
+// This init parses command line flags.
 func init() {
 	flag.UintVar(&global.NeedBits, "difficulty", 20, "leading zero bits required for the challenge")
 	flag.StringVar(&global.SourceURL, "source", "https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/", "url to the source code")

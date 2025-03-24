@@ -4,8 +4,6 @@
 package main
 
 import (
-	"crypto/sha256"
-	"crypto/subtle"
 	"encoding/base64"
 	"errors"
 	"log"
@@ -21,29 +19,39 @@ type tparams struct {
 
 func main() {
 	log.Fatal(http.ListenAndServe(listenAddr, http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		// Static resources for powxy itself.
 		if strings.HasPrefix(request.URL.Path, "/.powxy/") {
 			http.StripPrefix("/.powxy/", http.FileServer(http.FS(resourcesFS))).ServeHTTP(writer, request)
 			return
 		}
 
+		// We attempt to fetch the powxy cookie. Its non-existence
+		// does not matter here; if the cookie does not exist, it
+		// will be nil, so validation will simply fail and the user
+		// will be prompted to solve the PoW challenge.
 		cookie, err := request.Cookie("powxy")
-		if err != nil {
-			if !errors.Is(err, http.ErrNoCookie) {
-				log.Println("COOKIE_ERR", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
-				http.Error(writer, "error fetching cookie", http.StatusInternalServerError)
-				return
-			}
+		if err != nil && !errors.Is(err, http.ErrNoCookie) {
+			log.Println("COOKIE_ERR", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+			http.Error(writer, "error fetching cookie", http.StatusInternalServerError)
+			return
 		}
 
+		// We generate the identifier that identifies the client,
+		// and the expected HMAC that the cookie should include.
 		identifier, expectedMAC := makeIdentifierMAC(request)
 
+		// If the cookie exists and is valid, we simply proxy the
+		// request.
 		if validateCookie(cookie, expectedMAC) {
 			log.Println("PROXY", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 			proxyRequest(writer, request)
 			return
 		}
 
-		authPage := func(message string) {
+		// A convenience function to render the challenge page,
+		// since all parameters but the message are constant at this
+		// point.
+		challengePage := func(message string) {
 			err := tmpl.Execute(writer, tparams{
 				Identifier: base64.StdEncoding.EncodeToString(identifier),
 				Message:    message,
@@ -54,45 +62,58 @@ func main() {
 			}
 		}
 
+		// This generally shouldn't happen, at least not for web
+		// browesrs.
 		if request.ParseForm() != nil {
 			log.Println("MALFORMED", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
-			authPage("You submitted a malformed form.")
+			challengePage("You submitted a malformed form.")
 			return
 		}
 
 		formValues, ok := request.PostForm["powxy"]
 		if !ok {
+			// If there's simply no form value, the user is probably
+			// just visiting the site for the first time or with an
+			// expired cookie.
 			log.Println("CHALLENGE", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
-			authPage("")
+			challengePage("")
 			return
 		} else if len(formValues) != 1 {
+			// This should never happen, at least not for web
+			// browsers.
 			log.Println("FORM_VALUES", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
-			authPage("You submitted an invalid number of form values.")
+			challengePage("You submitted an invalid number of form values.")
 			return
 		}
 
+		// We validate that the length is reasonable before even
+		// decoding it with base64.
+		if len(formValues[0]) > 43 {
+			log.Println("TOO_LONG", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
+			challengePage("Your submission was too long.")
+			return
+		}
+
+		// Actually decode the base64 value.
 		nonce, err := base64.StdEncoding.DecodeString(formValues[0])
 		if err != nil {
 			log.Println("BASE64", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
-			authPage("Your submission was improperly encoded.")
+			challengePage("Your submission was improperly encoded.")
 			return
 		}
 
-		if len(nonce) > 32 {
-			log.Println("TOO_LONG", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
-			authPage("Your submission was too long.")
-			return
-		}
-
-		h := sha256.New()
-		h.Write(identifier)
-		h.Write(nonce)
-		ck := h.Sum(nil)
-		if !validateBitZeros(ck, global.NeedBits) {
+		// Validate the nonce.
+		if !validateNonce(identifier, nonce) {
 			log.Println("WRONG", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
-			authPage("Your submission was incorrect, or your session has expired while submitting.")
+			challengePage("Your submission was incorrect, or your session has expired while submitting.")
 			return
 		}
+
+		// Everything starting here: the nonce is valid, and we
+		// can set the cookie and redirect them. The redirection is
+		// needed as their "normal" request is most definitely
+		// different from one to expect after solving the PoW
+		// challenge.
 
 		http.SetCookie(writer, &http.Cookie{
 			Name:     "powxy",
@@ -104,31 +125,4 @@ func main() {
 		log.Println("ACCEPTED", getRemoteIP(request), request.RequestURI, request.Header.Get("User-Agent"))
 		http.Redirect(writer, request, "", http.StatusSeeOther)
 	})))
-}
-
-func validateCookie(cookie *http.Cookie, expectedMAC []byte) bool {
-	if cookie == nil {
-		return false
-	}
-
-	gotMAC, err := base64.StdEncoding.DecodeString(cookie.Value)
-	if err != nil {
-		return false
-	}
-
-	return subtle.ConstantTimeCompare(gotMAC, expectedMAC) == 1
-}
-
-func getRemoteIP(request *http.Request) (remoteIP string) {
-	if secondary {
-		remoteIP, _, _ = strings.Cut(request.Header.Get("X-Forwarded-For"), ",")
-	}
-	if remoteIP == "" {
-		remoteIP = request.RemoteAddr
-		index := strings.LastIndex(remoteIP, ":")
-		if index != -1 {
-			remoteIP = remoteIP[:index]
-		}
-	}
-	return
 }

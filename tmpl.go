@@ -13,6 +13,7 @@ import (
 var tmplString string
 var tmpl *template.Template
 
+// This init function parses the HTML template.
 func init() {
 	var err error
 	tmpl, err = template.New("powxy").Parse(tmplString)

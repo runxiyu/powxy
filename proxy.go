@@ -12,6 +12,8 @@ import (
 
 var reverseProxy *httputil.ReverseProxy
 
+// This init sets up the reverse proxy. Go's NewSingleHostReverseProxy is
+// sufficient for our use case.
 func init() {
 	parsedURL, err := url.Parse(destHost)
 	if err != nil {
@@ -20,6 +22,7 @@ func init() {
 	reverseProxy = httputil.NewSingleHostReverseProxy(parsedURL)
 }
 
+// proxyRequest proxies the incoming request to the destination host.
 func proxyRequest(writer http.ResponseWriter, request *http.Request) {
 	reverseProxy.ServeHTTP(writer, request)
 }
