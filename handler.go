@@ -96,7 +96,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 		// If there's simply no form value, the user is probably
 		// just visiting the site for the first time or with an
 		// expired cookie.
-		slog.Info("-- POW CHL",
+		slog.Info("   POW CHL",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
