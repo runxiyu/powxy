@@ -77,6 +77,7 @@ func attrValueToString(v slog.Value) string {
 }
 
 func init() {
+	slog.SetDefault(slog.New(NewIRCLogHandler(slog.LevelInfo)))
 }
 
 // copied from slog
