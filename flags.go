@@ -16,6 +16,14 @@ var (
 	writeTimeout      int
 	idleTimeout       int
 	readHeaderTimeout int
+	ircAddr           string
+	ircNet            string
+	ircTLS            bool
+	ircChannel        string
+	ircNick           string
+	ircUsername       string
+	ircRealname       string
+	ircBuf            uint
 )
 
 // This init parses command line flags.
@@ -29,6 +37,14 @@ func init() {
 	flag.IntVar(&writeTimeout, "write-timeout", 0, "write timeout in seconds, 0 for no timeout")
 	flag.IntVar(&idleTimeout, "idle-timeout", 0, "idle timeout in seconds, 0 for no timeout")
 	flag.IntVar(&readHeaderTimeout, "read-header-timeout", 30, "read header timeout in seconds, 0 for no timeout")
+	flag.StringVar(&ircAddr, "irc-addr", "irc.runxiyu.org:6697", "irc server address")
+	flag.StringVar(&ircNet, "irc-net", "tcp", "irc network transport")
+	flag.BoolVar(&ircTLS, "irc-tls", true, "irc tls")
+	flag.StringVar(&ircChannel, "irc-channel", "#logs", "irc channel")
+	flag.StringVar(&ircNick, "irc-nick", "powxy", "irc nick")
+	flag.StringVar(&ircUsername, "irc-username", "powxy", "irc username")
+	flag.StringVar(&ircRealname, "irc-realname", "powxy", "irc realname")
+	flag.UintVar(&ircBuf, "irc-buf", 3000, "irc buffer size")
 	flag.Parse()
 	global.NeedBitsReverse = sha256.Size - global.NeedBits
 }

@@ -28,7 +28,7 @@ func (h *IRCLogHandler) Enabled(_ context.Context, level slog.Level) bool {
 func (h *IRCLogHandler) Handle(_ context.Context, r slog.Record) error {
 	var sb strings.Builder
 
-	sb.WriteString("PRIVMSG #logs :")
+	sb.WriteString("PRIVMSG " + ircChannel + " :")
 
 	sb.WriteString(r.Message)
 

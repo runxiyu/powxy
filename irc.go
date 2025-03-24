@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"math/rand"
 
 	irc "go.lindenii.runxiyu.org/lindenii-irc"
 )
@@ -19,7 +18,7 @@ type errorBack[T any] struct {
 }
 
 func ircBotSession() error {
-	underlyingConn, err := tls.Dial("tcp", "irc.runxiyu.org:6697", nil)
+	underlyingConn, err := tls.Dial(ircNet, ircAddr, nil)
 	if err != nil {
 		return err
 	}
@@ -31,16 +30,11 @@ func ircBotSession() error {
 		return conn.WriteString(s + "\r\n")
 	}
 
-	suffix := ""
-	for i := 0; i < 5; i++ {
-		suffix += string(rand.Intn(26) + 97)
-	}
-
-	_, err = logAndWriteLn("NICK :powxy-" + suffix)
+	_, err = logAndWriteLn("NICK :" + ircNick)
 	if err != nil {
 		return err
 	}
-	_, err = logAndWriteLn("USER powxy 0 * :powxy")
+	_, err = logAndWriteLn("USER " + ircUsername + " 0 * :" + ircRealname)
 	if err != nil {
 		return err
 	}
@@ -65,7 +59,7 @@ func ircBotSession() error {
 
 			switch msg.Command {
 			case "001":
-				_, err = logAndWriteLn("JOIN #logs")
+				_, err = logAndWriteLn("JOIN " + ircChannel)
 				if err != nil {
 					readLoopError <- err
 					return
@@ -80,13 +74,8 @@ func ircBotSession() error {
 				c, ok := msg.Source.(irc.Client)
 				if !ok {
 				}
-				if c.Nick != "powxy"+suffix {
+				if c.Nick != ircNick {
 					continue
-				}
-				_, err = logAndWriteLn("PRIVMSG #logs :test")
-				if err != nil {
-					readLoopError <- err
-					return
 				}
 			default:
 			}
@@ -130,7 +119,7 @@ func ircSendDirect(s string) error {
 }
 
 func ircBotLoop() {
-	ircSendBuffered = make(chan string, 3000)
+	ircSendBuffered = make(chan string, ircBuf)
 	ircSendDirectChan = make(chan errorBack[string])
 
 	for {

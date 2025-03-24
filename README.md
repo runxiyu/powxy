@@ -86,6 +86,20 @@ Usage of ./powxy:
     	leading zero bits required for the challenge (default 20)
   -idle-timeout int
     	idle timeout in seconds, 0 for no timeout
+  -irc-addr string
+    	irc server address (default "irc.runxiyu.org:6697")
+  -irc-channel string
+    	irc channel (default "#logs")
+  -irc-net string
+    	irc network transport (default "tcp")
+  -irc-nick string
+    	irc nick (default "powxy")
+  -irc-realname string
+    	irc realname (default "powxy")
+  -irc-tls
+    	irc tls (default true)
+  -irc-username string
+    	irc username (default "powxy")
   -listen string
     	address to listen on (default ":8081")
   -read-header-timeout int
