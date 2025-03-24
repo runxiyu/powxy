@@ -170,7 +170,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	http.Redirect(writer, request, "", http.StatusSeeOther)
 }
 
-// tparams holds paramters for the template.
+// tparams holds parameters for the template.
 type tparams struct {
 	Identifier string
 	Message    string
