@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: BSD-2-Clause
+// SPDX-FileCopyrightText: Copyright (c) 2025 Runxi Yu <https://runxiyu.org>
+//
 // This is a reference implementation of the proof of work solver in C.
 // For security reasons, it is recommended that you read and understand the
 // entire program first if you actually want to run it.

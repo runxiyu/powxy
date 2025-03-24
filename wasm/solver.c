@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: BSD-2-Clause
+// SPDX-FileCopyrightText: Copyright (c) 2025 Vicky Williams
+// SPDX-FileCopyrightText: Copyright (c) 2025 Runxi Yu
+
 #include "sha256.h"
 
 unsigned char challenge[32];
@@ -40,7 +44,6 @@ unsigned long long solve(unsigned char difficulty) {
 		sha256_final(&context, hash);
 
 		if(validate_hash(hash, difficulty)) {
-			// we did it!!
 			break;
 		}
 
