@@ -8,7 +8,7 @@ func validateBitZeros(bs []byte, n uint) bool {
 	q := n / 8
 	r := n % 8
 
-	for i := uint(0); i < q; i++ {
+	for i := range q {
 		if bs[i] != 0 {
 			return false
 		}
