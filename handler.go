@@ -110,6 +110,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
+			"form_values", formValues,
 		)
 		challengePage("You submitted an invalid number of form values.")
 		return
@@ -136,6 +137,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 			"uri", uri,
 			"user_agent", userAgent,
 			"error", err,
+			"form_value", formValues[0],
 		)
 		challengePage("Your submission was improperly encoded.")
 		return
@@ -147,6 +149,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
+			"form_value", formValues[0],
 		)
 		challengePage("Your submission was incorrect, or your session has expired while submitting.")
 		return
@@ -169,6 +172,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 		"ip", remoteIP,
 		"uri", uri,
 		"user_agent", userAgent,
+		"form_value", formValues[0],
 	)
 	http.Redirect(writer, request, "", http.StatusSeeOther)
 }
