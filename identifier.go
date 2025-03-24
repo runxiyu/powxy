@@ -30,16 +30,10 @@ func makeIdentifierMAC(request *http.Request) (identifier []byte, mac []byte) {
 	h.Write(stringToBytes(request.Header.Get("Accept-Language")))
 	h.Write(privkeyHash)
 	identifier = h.Sum(identifier)
-	if len(identifier) != sha256.Size {
-		panic("unexpected buffer length after hashing contents")
-	}
 
 	m := hmac.New(sha256.New, privkey)
 	m.Write(identifier)
 	mac = m.Sum(mac)
-	if len(mac) != sha256.Size {
-		panic("unexpected buffer length after hmac")
-	}
 
 	return
 }
