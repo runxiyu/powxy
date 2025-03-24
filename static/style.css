@@ -112,7 +112,6 @@ details {
 	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
-#solver_status {
-	color: var(--light-text-color);
-	margin-top: 1rem;
+.somewhat-transparent {
+	opacity: 0.78;
 }
