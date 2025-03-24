@@ -3,15 +3,25 @@
 Powxy is a reverse proxy that protects your upstream service by challenging
 clients with SHA-256 proof-of-work.
 
+A demo instance is available at [git.runxiyu.org](https://git.runxiyu.org/).
+It may experience occasional outages.
+
 The goal is to discourage scraping, as it becomes expensive for a client to
 perform en masse. This is especially useful at protecting things like Git
 forges where scrapers do silly things like fetching each file in each commit
 every hour.
 
-## Demo
+Users that run JS and WASM will have their browsers solve the challenge
+automatically. Other users will need to solve the challenge externally; a C
+program is provided for this purpose.
 
-A demo instance is available at [git.runxiyu.org](https://git.runxiyu.org/).
-It may experience occasional outages.
+It aims to be very easy to deploy, use, and maintain. The implementation is
+rather minimal: there are no Go dependencies, no JavaScript dependencies, no
+dependencies for the WebAssembly solver, etc. The only "weird" dependencies are
+Clang and LLD, for compiling the WebAssembly solver. (The C program that the
+users could download and run depends on OpenSSL because I don't want to bother
+with implementing base64, and almost everyone with a C compiler would have
+OpenSSL.) All configuration options are passed as command-line flags.
 
 ## Mechanism
 
@@ -34,7 +44,7 @@ interaction; the current solver requires WebAssembly. Clients that do not run
 JavaScript need to solve the challenge externally, e.g. via the C program
 provided near the HTML form, and submit their nonce manually.
 
-## Bugs
+## To-do
 
 - **The cryptography hasn't been fully audited.** I wrote this after a tiring
   school week and this definitely needs some review from external parties,
@@ -53,6 +63,7 @@ provided near the HTML form, and submit their nonce manually.
   on the server.
 - Safari on iOS and iPadOS seem to unpredictably make their requests from
   different address families, which causes the challenge to fail.
+- Unix domain sockets.
 
 ## Build
 
@@ -69,15 +80,23 @@ make
 ```
 Usage of ./powxy:
   -difficulty uint
-    	leading zero bits required for the challenge (default 17)
+    	leading zero bits required for the challenge (default 20)
+  -idle-timeout int
+    	idle timeout in seconds, 0 for no timeout
   -listen string
     	address to listen on (default ":8081")
+  -read-header-timeout int
+    	read header timeout in seconds, 0 for no timeout (default 30)
+  -read-timeout int
+    	read timeout in seconds, 0 for no timeout
   -secondary
     	trust X-Forwarded-For headers
   -source string
-    	url to the source code (default "https://https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/")
+    	url to the source code (default "https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/")
   -upstream string
     	destination url base to proxy to (default "http://127.0.0.1:8080")
+  -write-timeout int
+    	write timeout in seconds, 0 for no timeout
 ```
 
 ## Contribute
