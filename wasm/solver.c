@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-2-Clause
-// SPDX-FileCopyrightText: Copyright (c) 2025 Vicky Williams
-// SPDX-FileCopyrightText: Copyright (c) 2025 Runxi Yu
+// SPDX-FileCopyrightText: Copyright (c) 2025 Vicky Williams <https://que.trolling.win>
+// SPDX-FileCopyrightText: Copyright (c) 2025 Runxi Yu <https://runxiyu.org>
 
 #include "sha256.h"
 
