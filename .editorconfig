@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileContributor: Runxi Yu <https://runxiyu.org>
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+indent_style = tab
+indent_size = 8
+tab_size = 8
+
+[*.yaml]
+indent_style = space
+indent_size = 2
+
+[*.html]
+tab_size = 2
+indent_size = 2
