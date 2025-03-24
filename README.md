@@ -36,8 +36,9 @@ provided near the HTML form, and submit their nonce manually.
 
 ## Bugs
 
-- **The cryptography hasn't been audited.** I wrote this after a tiring school
-  week and this definitely needs some review.
+- **The cryptography hasn't been fully audited.** I wrote this after a tiring
+  school week and this definitely needs some review from external parties,
+  although I checked the HMACing myself and I think it's sound.
 - We should allow Git clients and RSS readers.
 - If a user is attempting to submit a POST request but their powxy cookie is
   invalid, powxy would redirect them to a challenge, and their POST data will
