@@ -3,7 +3,10 @@
 
 package main
 
-import "flag"
+import (
+	"crypto/sha256"
+	"flag"
+)
 
 var (
 	listenAddr        string
@@ -27,5 +30,5 @@ func init() {
 	flag.IntVar(&idleTimeout, "idle-timeout", 0, "idle timeout in seconds, 0 for no timeout")
 	flag.IntVar(&readHeaderTimeout, "read-header-timeout", 30, "read header timeout in seconds, 0 for no timeout")
 	flag.Parse()
-	global.NeedBitsReverse = 256 - global.NeedBits
+	global.NeedBitsReverse = sha256.Size - global.NeedBits
 }
