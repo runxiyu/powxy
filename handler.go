@@ -29,7 +29,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// will be prompted to solve the PoW challenge.
 	cookie, err := request.Cookie("powxy")
 	if err != nil && !errors.Is(err, http.ErrNoCookie) {
-		slog.Error("ERRCOOKIE",
+		slog.Error("\x0302ERRCOOKIE",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
@@ -46,7 +46,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// If the cookie exists and is valid, we simply proxy the
 	// request.
 	if validateCookie(cookie, expectedMAC) {
-		slog.Info("++ PROXY",
+		slog.Info("\x0f++ PROXY",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
@@ -68,7 +68,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 			Global:     global,
 		})
 		if err != nil {
-			slog.Error("template execution failed",
+			slog.Error("\x0304template execution failed",
 				"ip", remoteIP,
 				"uri", uri,
 				"user_agent", userAgent,
@@ -81,7 +81,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// browesrs.
 	err = request.ParseForm()
 	if err != nil {
-		slog.Warn("MALFORMED",
+		slog.Warn("\x0302MALFORMED",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
@@ -96,7 +96,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 		// If there's simply no form value, the user is probably
 		// just visiting the site for the first time or with an
 		// expired cookie.
-		slog.Info("   POW CHL",
+		slog.Info("\x0301   POW CHL",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
@@ -106,7 +106,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	} else if len(formValues) != 1 {
 		// This should never happen, at least not for web
 		// browsers.
-		slog.Warn("FORMNUM",
+		slog.Warn("\x0302FORMNUM",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
@@ -119,7 +119,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// We validate that the length is reasonable before even
 	// decoding it with base64.
 	if len(formValues[0]) > 43 {
-		slog.Warn("TOOLONG",
+		slog.Warn("\x0302TOOLONG",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
@@ -132,7 +132,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// Actually decode the base64 value.
 	nonce, err := base64.StdEncoding.DecodeString(formValues[0])
 	if err != nil {
-		slog.Warn("ERRBASE64",
+		slog.Warn("\x0302ERRBASE64",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
@@ -145,7 +145,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 
 	// Validate the nonce.
 	if !validateNonce(identifier, nonce) {
-		slog.Warn("-- POW NAK",
+		slog.Warn("\x0302-- POW NAK",
 			"ip", remoteIP,
 			"uri", uri,
 			"user_agent", userAgent,
@@ -168,7 +168,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 		HttpOnly: true,
 	})
 
-	slog.Info("-- POW ACK",
+	slog.Info("\x0303-- POW ACK",
 		"ip", remoteIP,
 		"uri", uri,
 		"user_agent", userAgent,
