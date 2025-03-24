@@ -30,8 +30,6 @@ func (h *IRCLogHandler) Handle(_ context.Context, r slog.Record) error {
 
 	sb.WriteString("PRIVMSG #logs :")
 
-	sb.WriteString(r.Level.String())
-	sb.WriteString(" ")
 	sb.WriteString(r.Message)
 
 	r.Attrs(func(a slog.Attr) bool {
@@ -79,7 +77,6 @@ func attrValueToString(v slog.Value) string {
 }
 
 func init() {
-	slog.SetDefault(slog.New(NewIRCLogHandler(slog.LevelInfo)))
 }
 
 // copied from slog
