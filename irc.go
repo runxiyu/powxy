@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
+	"net"
 
 	irc "go.lindenii.runxiyu.org/lindenii-irc"
 )
@@ -18,7 +19,13 @@ type errorBack[T any] struct {
 }
 
 func ircBotSession() error {
-	underlyingConn, err := tls.Dial(ircNet, ircAddr, nil)
+	var err error
+	var underlyingConn net.Conn
+	if ircTLS {
+		underlyingConn, err = tls.Dial(ircNet, ircAddr, nil)
+	} else {
+		underlyingConn, err = net.Dial(ircNet, ircAddr)
+	}
 	if err != nil {
 		return err
 	}
