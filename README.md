@@ -1,8 +1,12 @@
 # Powxy &ndash; anti-scraper reverse proxy
 
-Powxy is a reverse proxy that sits in front of your upstream service and
-enforces a SHA-256 proof-of-work challenge. The goal is to discourage scraping,
-as it becomes expensive for a client to perform en masse.
+Powxy is a reverse proxy that protects your upstream service by challenging
+clients with SHA-256 proof-of-work.
+
+The goal is to discourage scraping, as it becomes expensive for a client to
+perform en masse. This is especially useful at protecting things like Git
+forges where scrapers do silly things like fetching each file in each commit
+every hour.
 
 ## Demo
 
