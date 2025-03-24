@@ -13,8 +13,6 @@ It may experience occasional outages.
 
 - **The cryptography hasn't been audited.** I wrote this after a tiring school
   week and this definitely needs some review.
-- The JavaScript challenge solver is very, very slow. The solver written in C
-  as presented in the web interface is a few thousand times faster.
 - We should allow Git clients and RSS readers.
 - If a user is attempting to submit a POST request but their powxy cookie is
   invalid, powxy would redirect them to a challenge, and their POST data will
