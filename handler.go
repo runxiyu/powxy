@@ -59,6 +59,9 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 	// since all parameters but the message are constant at this
 	// point.
 	challengePage := func(message string) {
+		writer.Header().Set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0, private")
+		writer.Header().Set("Pragma", "no-cache")
+		writer.Header().Set("Expires", "0")
 		err := tmpl.Execute(writer, tparams{
 			Identifier: base64.StdEncoding.EncodeToString(identifier),
 			Message:    message,
