@@ -9,6 +9,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Proof-of-work challenge</title>
 	<link rel="stylesheet" href="/.powxy/static/style.css" />
+	<script src="/.powxy/static/main.js">
+	</script>
 </head>
 <body data-identifier="{{ .Identifier }}" data-difficulty="{{ .Global.NeedBits }}">
 	<main>
@@ -49,8 +51,5 @@
 			<p class="somewhat-transparent"><a href="/.powxy/static/solver.c">A C implementation of the challenge solver</a> is available.</p>
 		</section>
 	</main>
-
-	<script src="/.powxy/static/main.js">
-	</script>
 </body>
 </html>
