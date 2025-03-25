@@ -12,8 +12,8 @@ forges where scrapers do silly things like fetching each file in each commit
 every hour.
 
 Users that run JS and WASM will have their browsers solve the challenge
-automatically. Other users will need to solve the challenge externally; a C
-program is provided for this purpose.
+automatically. Other users will need to solve the challenge externally; C
+and Python programs are provided for this purpose.
 
 It aims to be very easy to deploy, use, and maintain. The implementation is
 rather minimal: there are no Go dependencies, no JavaScript dependencies, no
@@ -41,8 +41,8 @@ cookie to pass the validation.
 
 JavaScript is provided to automatically solve the challenge without user
 interaction; the current solver requires WebAssembly. Clients that do not run
-JavaScript need to solve the challenge externally, e.g. via the C program
-provided near the HTML form, and submit their nonce manually.
+JavaScript need to solve the challenge externally, e.g. via the C/Python
+program provided near the HTML form, and submit their nonce manually.
 
 ## To-do
 
