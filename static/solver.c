@@ -106,7 +106,7 @@ int main(int argc, char **argv)
 	unsigned char digest[len];
 	size_t next = 0;
 
-	while (1) {
+	for (;;) {
 		if (EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL) != 1) {
 			fprintf(stderr, "EVP_DigestInit_ex\n");
 			EVP_MD_CTX_free(mdctx);
