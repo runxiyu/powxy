@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: Copyright (c) 2025 Runxi Yu <https://runxiyu.org>
 
-powxy: *.go version.go wasm/solver.wasm
+powxy: *.go version.go wasm/solver.wasm static/*
 	go build -o powxy
 
 version.go:
