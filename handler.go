@@ -118,7 +118,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 
 	// We validate that the length is reasonable before even
 	// decoding it with base64.
-	if len(formValues[0]) > 43 {
+	if len(formValues[0]) > 44 {
 		slog.Warn("submission too long",
 			"ip", remoteIP,
 			"uri", uri,
