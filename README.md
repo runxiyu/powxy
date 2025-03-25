@@ -128,6 +128,7 @@ on
 
 * [Anubis](https://github.com/TecharoHQ/anubis)
   (the original inspiration that prompted me to write this)
+* [CSSWAF](https://github.com/yzqzss/csswaf)
 * [PoW! Bot Deterrant](https://git.sequentialread.com/forest/pow-bot-deterrent)
 
 ## License
