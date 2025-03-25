@@ -6,7 +6,8 @@
 
 unsigned char challenge[32];
 
-char validate_hash(unsigned char *hash, unsigned char zero_bit_count) {
+char validate_hash(unsigned char *hash, unsigned char zero_bit_count)
+{
 	unsigned char q = zero_bit_count / 8;
 	unsigned char r = zero_bit_count % 8;
 
@@ -25,11 +26,13 @@ char validate_hash(unsigned char *hash, unsigned char zero_bit_count) {
 	return 1;
 }
 
-unsigned char *get_challenge_ptr() {
+unsigned char *get_challenge_ptr()
+{
 	return challenge;
 }
 
-unsigned long long solve(unsigned char difficulty) {
+unsigned long long solve(unsigned char difficulty)
+{
 	unsigned long long nonce;
 	SHA256_CTX context;
 
@@ -37,13 +40,14 @@ unsigned long long solve(unsigned char difficulty) {
 
 	nonce = 0;
 
-	while(1) {
+	while (1) {
 		sha256_init(&context);
 		sha256_update(&context, challenge, sizeof(challenge));
-		sha256_update(&context, (unsigned char*)(&nonce), sizeof(nonce));
+		sha256_update(&context, (unsigned char *)(&nonce),
+			      sizeof(nonce));
 		sha256_final(&context, hash);
 
-		if(validate_hash(hash, difficulty)) {
+		if (validate_hash(hash, difficulty)) {
 			break;
 		}
 
