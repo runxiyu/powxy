@@ -166,6 +166,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 		Value:    base64.StdEncoding.EncodeToString(expectedMAC),
 		Secure:   true,
 		HttpOnly: true,
+		Path:     "/",
 	})
 
 	slog.Info("accepted proof of work",
