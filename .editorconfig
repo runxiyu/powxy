@@ -17,3 +17,7 @@ indent_size = 2
 [*.html]
 tab_size = 2
 indent_size = 2
+
+[*.py]
+tab_size = 4
+indent_size = 4
