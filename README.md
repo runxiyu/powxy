@@ -70,7 +70,7 @@ program provided near the HTML form, and submit their nonce manually.
 You need a working Go installation, along with Clang and LLD for WebAssembly.
 
 ```
-git clone ssh://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/
+git clone ssh://forge.lindenii.runxiyu.org/powxy/-/repos/powxy/
 cd powxy
 make
 ```
@@ -92,7 +92,7 @@ Usage of ./powxy:
   -secondary
     	trust X-Forwarded-For headers
   -source string
-    	url to the source code (default "https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/")
+    	url to the source code (default "https://forge.lindenii.runxiyu.org/powxy/-/repos/powxy/")
   -upstream string
     	destination url base to proxy to (default "http://127.0.0.1:8080")
   -write-timeout int
@@ -102,11 +102,11 @@ Usage of ./powxy:
 ## Contribute
 
 Create a branch that begins with `contrib/` and push to
-[the repo on our home forge](https://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/)
+[the repo on our home forge](https://forge.lindenii.runxiyu.org/powxy/-/repos/powxy/)
 via SSH.
 
 ```
-git clone ssh://forge.lindenii.runxiyu.org/powxy/:/repos/powxy/
+git clone ssh://forge.lindenii.runxiyu.org/powxy/-/repos/powxy/
 cd powxy
 git checkout -b contrib/whatever
 # edit and commit stuff
