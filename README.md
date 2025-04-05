@@ -3,8 +3,9 @@
 Powxy is a reverse proxy that protects your upstream service by challenging
 clients with SHA-256 proof-of-work.
 
-A demo instance is available at [git.runxiyu.org](https://git.runxiyu.org/).
-It may experience occasional outages.
+A demo instance used to be available. Due to various backend performance
+improvements, it became no longer necessary to protect it against scrapers,
+so the Powxy instance was removed.
 
 The goal is to discourage scraping, as it becomes expensive for a client to
 perform en masse. This is especially useful at protecting things like Git
@@ -52,6 +53,7 @@ program provided near the HTML form, and submit their nonce manually.
 - We should allow Git clients and RSS readers.
 - If a user is attempting to submit a POST request but their powxy cookie is
   invalid, powxy would redirect them to a challenge, and their POST data will
+
   be lost.
 - It does not work when duplex connections are needed, e.g. with Git's Smart
   HTTP protocol.
