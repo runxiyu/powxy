@@ -53,7 +53,6 @@ program provided near the HTML form, and submit their nonce manually.
 - We should allow Git clients and RSS readers.
 - If a user is attempting to submit a POST request but their powxy cookie is
   invalid, powxy would redirect them to a challenge, and their POST data will
-
   be lost.
 - It does not work when duplex connections are needed, e.g. with Git's Smart
   HTTP protocol.
@@ -63,6 +62,8 @@ program provided near the HTML form, and submit their nonce manually.
   what be a good solution though, it'd be nice to have something that's more
   memory-hard, but password-based key derivation functions are too heavy
   on the server.
+- If we stay with SHA-256, an HMAC or prepending solutions should be used
+  instead of simply appending things; might have issues with length-extension.
 - Safari on iOS and iPadOS seem to unpredictably make their requests from
   different address families, which causes the challenge to fail.
 - Unix domain sockets.
