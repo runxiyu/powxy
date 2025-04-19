@@ -64,8 +64,9 @@ program provided near the HTML form, and submit their nonce manually.
   on the server.
 - If we stay with SHA-256, an HMAC or prepending solutions should be used
   instead of simply appending things; might have issues with length-extension.
-- Safari on iOS and iPadOS seem to unpredictably make their requests from
-  different address families, which causes the challenge to fail.
+- Some clients make requests from different address families, which causes the
+  challenge to fail. This seems to be known as
+  [Happy Eyeballs](https://en.wikipedia.org/wiki/Happy_Eyeballs).
 - Unix domain sockets.
 
 ## Build
