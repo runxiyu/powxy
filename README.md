@@ -132,6 +132,8 @@ on
 
 * [Anubis](https://github.com/TecharoHQ/anubis)
   (the original inspiration that prompted me to write this)
+* [go-away](https://git.gammaspectra.live/git/go-away)
+  (imo quite a nice and comprehensive solution)
 * [CSSWAF](https://github.com/yzqzss/csswaf)
 * [PoW! Bot Deterrant](https://git.sequentialread.com/forest/pow-bot-deterrent)
 
